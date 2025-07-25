@@ -15,13 +15,14 @@ import {
   IsString,
   MaxLength,
   IsOptional,
+  ValidateNested,
   IsInt,
   Min,
   Max,
-  ValidateNested,
 } from "class-validator";
-import { BookingCreateNestedManyWithoutVillasInput } from "./BookingCreateNestedManyWithoutVillasInput";
+import { AmenityCreateNestedManyWithoutVillasInput } from "./AmenityCreateNestedManyWithoutVillasInput";
 import { Type } from "class-transformer";
+import { BookingCreateNestedManyWithoutVillasInput } from "./BookingCreateNestedManyWithoutVillasInput";
 import { IsJSONValue } from "../../validators";
 import { GraphQLJSON } from "graphql-type-json";
 import { InputJsonValue } from "../../types";
@@ -40,6 +41,18 @@ class VillaCreateInput {
     nullable: true,
   })
   address?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => AmenityCreateNestedManyWithoutVillasInput,
+  })
+  @ValidateNested()
+  @Type(() => AmenityCreateNestedManyWithoutVillasInput)
+  @IsOptional()
+  @Field(() => AmenityCreateNestedManyWithoutVillasInput, {
+    nullable: true,
+  })
+  amenities?: AmenityCreateNestedManyWithoutVillasInput;
 
   @ApiProperty({
     required: false,

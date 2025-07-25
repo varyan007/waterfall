@@ -4,13 +4,14 @@ import {
   Show,
   SimpleShowLayout,
   ShowProps,
-  DateField,
   TextField,
+  DateField,
   ReferenceManyField,
   Datagrid,
   ReferenceField,
 } from "react-admin";
 
+import { AMENITY_TITLE_FIELD } from "../amenity/AmenityTitle";
 import { SERVICEPACKAGE_TITLE_FIELD } from "./ServicePackageTitle";
 import { USER_TITLE_FIELD } from "../user/UserTitle";
 import { VILLA_TITLE_FIELD } from "../villa/VillaTitle";
@@ -19,6 +20,7 @@ export const ServicePackageShow = (props: ShowProps): React.ReactElement => {
   return (
     <Show {...props}>
       <SimpleShowLayout>
+        <TextField label="amenities" source="amenities" />
         <DateField source="createdAt" label="Created At" />
         <TextField label="description" source="description" />
         <TextField label="ID" source="id" />
@@ -33,6 +35,13 @@ export const ServicePackageShow = (props: ShowProps): React.ReactElement => {
           label="Bookings"
         >
           <Datagrid rowClick="show" bulkActionButtons={false}>
+            <ReferenceField
+              label="Amenity"
+              source="amenity.id"
+              reference="Amenity"
+            >
+              <TextField source={AMENITY_TITLE_FIELD} />
+            </ReferenceField>
             <DateField source="createdAt" label="Created At" />
             <TextField label="dateFrom" source="dateFrom" />
             <TextField label="dateTo" source="dateTo" />

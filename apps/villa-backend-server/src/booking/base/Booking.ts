@@ -11,12 +11,13 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
+import { Amenity } from "../../amenity/base/Amenity";
 
 import {
-  IsDate,
-  IsOptional,
-  IsString,
   ValidateNested,
+  IsOptional,
+  IsDate,
+  IsString,
   MaxLength,
   IsNumber,
   Min,
@@ -30,6 +31,15 @@ import { Villa } from "../../villa/base/Villa";
 
 @ObjectType()
 class Booking {
+  @ApiProperty({
+    required: false,
+    type: () => Amenity,
+  })
+  @ValidateNested()
+  @Type(() => Amenity)
+  @IsOptional()
+  amenity?: Amenity | null;
+
   @ApiProperty({
     required: true,
   })

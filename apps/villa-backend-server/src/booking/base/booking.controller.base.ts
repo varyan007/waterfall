@@ -34,6 +34,12 @@ export class BookingControllerBase {
       data: {
         ...data,
 
+        amenity: data.amenity
+          ? {
+              connect: data.amenity,
+            }
+          : undefined,
+
         servicePackage: data.servicePackage
           ? {
               connect: data.servicePackage,
@@ -53,6 +59,12 @@ export class BookingControllerBase {
           : undefined,
       },
       select: {
+        amenity: {
+          select: {
+            id: true,
+          },
+        },
+
         createdAt: true,
         dateFrom: true,
         dateTo: true,
@@ -91,6 +103,12 @@ export class BookingControllerBase {
     return this.service.bookings({
       ...args,
       select: {
+        amenity: {
+          select: {
+            id: true,
+          },
+        },
+
         createdAt: true,
         dateFrom: true,
         dateTo: true,
@@ -130,6 +148,12 @@ export class BookingControllerBase {
     const result = await this.service.booking({
       where: params,
       select: {
+        amenity: {
+          select: {
+            id: true,
+          },
+        },
+
         createdAt: true,
         dateFrom: true,
         dateTo: true,
@@ -179,6 +203,12 @@ export class BookingControllerBase {
         data: {
           ...data,
 
+          amenity: data.amenity
+            ? {
+                connect: data.amenity,
+              }
+            : undefined,
+
           servicePackage: data.servicePackage
             ? {
                 connect: data.servicePackage,
@@ -198,6 +228,12 @@ export class BookingControllerBase {
             : undefined,
         },
         select: {
+          amenity: {
+            select: {
+              id: true,
+            },
+          },
+
           createdAt: true,
           dateFrom: true,
           dateTo: true,
@@ -246,6 +282,12 @@ export class BookingControllerBase {
       return await this.service.deleteBooking({
         where: params,
         select: {
+          amenity: {
+            select: {
+              id: true,
+            },
+          },
+
           createdAt: true,
           dateFrom: true,
           dateTo: true,

@@ -11,9 +11,10 @@ import {
   ReferenceField,
 } from "react-admin";
 
+import { VILLA_TITLE_FIELD } from "./VillaTitle";
+import { AMENITY_TITLE_FIELD } from "../amenity/AmenityTitle";
 import { SERVICEPACKAGE_TITLE_FIELD } from "../servicePackage/ServicePackageTitle";
 import { USER_TITLE_FIELD } from "../user/UserTitle";
-import { VILLA_TITLE_FIELD } from "./VillaTitle";
 
 export const VillaShow = (props: ShowProps): React.ReactElement => {
   return (
@@ -28,11 +29,36 @@ export const VillaShow = (props: ShowProps): React.ReactElement => {
         <TextField label="name" source="name" />
         <DateField source="updatedAt" label="Updated At" />
         <ReferenceManyField
+          reference="Amenity"
+          target="villaId"
+          label="Amenities"
+        >
+          <Datagrid rowClick="show" bulkActionButtons={false}>
+            <DateField source="createdAt" label="Created At" />
+            <TextField label="description" source="description" />
+            <TextField label="ID" source="id" />
+            <TextField label="images" source="images" />
+            <TextField label="name" source="name" />
+            <TextField label="type" source="typeField" />
+            <DateField source="updatedAt" label="Updated At" />
+            <ReferenceField label="Villa" source="villa.id" reference="Villa">
+              <TextField source={VILLA_TITLE_FIELD} />
+            </ReferenceField>
+          </Datagrid>
+        </ReferenceManyField>
+        <ReferenceManyField
           reference="Booking"
           target="villaId"
           label="Bookings"
         >
           <Datagrid rowClick="show" bulkActionButtons={false}>
+            <ReferenceField
+              label="Amenity"
+              source="amenity.id"
+              reference="Amenity"
+            >
+              <TextField source={AMENITY_TITLE_FIELD} />
+            </ReferenceField>
             <DateField source="createdAt" label="Created At" />
             <TextField label="dateFrom" source="dateFrom" />
             <TextField label="dateTo" source="dateTo" />

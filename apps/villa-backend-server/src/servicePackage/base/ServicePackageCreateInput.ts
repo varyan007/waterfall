@@ -11,24 +11,34 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { BookingCreateNestedManyWithoutServicePackagesInput } from "./BookingCreateNestedManyWithoutServicePackagesInput";
+import { IsJSONValue } from "../../validators";
 import {
-  ValidateNested,
   IsOptional,
+  ValidateNested,
   IsString,
   MaxLength,
   IsNumber,
   Min,
   Max,
 } from "class-validator";
-import { Type } from "class-transformer";
-import { IsJSONValue } from "../../validators";
 import { GraphQLJSON } from "graphql-type-json";
 import { InputJsonValue } from "../../types";
+import { BookingCreateNestedManyWithoutServicePackagesInput } from "./BookingCreateNestedManyWithoutServicePackagesInput";
+import { Type } from "class-transformer";
 import { PricingRuleCreateNestedManyWithoutServicePackagesInput } from "./PricingRuleCreateNestedManyWithoutServicePackagesInput";
 
 @InputType()
 class ServicePackageCreateInput {
+  @ApiProperty({
+    required: false,
+  })
+  @IsJSONValue()
+  @IsOptional()
+  @Field(() => GraphQLJSON, {
+    nullable: true,
+  })
+  amenities?: InputJsonValue;
+
   @ApiProperty({
     required: false,
     type: () => BookingCreateNestedManyWithoutServicePackagesInput,

@@ -1,3 +1,4 @@
+import { AmenityWhereUniqueInput } from "../amenity/AmenityWhereUniqueInput";
 import { DateTimeNullableFilter } from "../../util/DateTimeNullableFilter";
 import { StringFilter } from "../../util/StringFilter";
 import { ServicePackageWhereUniqueInput } from "../servicePackage/ServicePackageWhereUniqueInput";
@@ -7,6 +8,7 @@ import { UserWhereUniqueInput } from "../user/UserWhereUniqueInput";
 import { VillaWhereUniqueInput } from "../villa/VillaWhereUniqueInput";
 
 export type BookingWhereInput = {
+  amenity?: AmenityWhereUniqueInput;
   dateFrom?: DateTimeNullableFilter;
   dateTo?: DateTimeNullableFilter;
   id?: StringFilter;

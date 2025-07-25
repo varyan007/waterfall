@@ -11,17 +11,28 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { BookingListRelationFilter } from "../../booking/base/BookingListRelationFilter";
-import { ValidateNested, IsOptional } from "class-validator";
+import { JsonFilter } from "../../util/JsonFilter";
 import { Type } from "class-transformer";
+import { IsOptional, ValidateNested } from "class-validator";
+import { BookingListRelationFilter } from "../../booking/base/BookingListRelationFilter";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { StringFilter } from "../../util/StringFilter";
-import { JsonFilter } from "../../util/JsonFilter";
 import { FloatNullableFilter } from "../../util/FloatNullableFilter";
 import { PricingRuleListRelationFilter } from "../../pricingRule/base/PricingRuleListRelationFilter";
 
 @InputType()
 class ServicePackageWhereInput {
+  @ApiProperty({
+    required: false,
+    type: JsonFilter,
+  })
+  @Type(() => JsonFilter)
+  @IsOptional()
+  @Field(() => JsonFilter, {
+    nullable: true,
+  })
+  amenities?: JsonFilter;
+
   @ApiProperty({
     required: false,
     type: () => BookingListRelationFilter,

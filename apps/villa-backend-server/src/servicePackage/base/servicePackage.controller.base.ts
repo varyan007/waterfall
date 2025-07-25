@@ -39,6 +39,7 @@ export class ServicePackageControllerBase {
     return await this.service.createServicePackage({
       data: data,
       select: {
+        amenities: true,
         createdAt: true,
         description: true,
         id: true,
@@ -61,6 +62,7 @@ export class ServicePackageControllerBase {
     return this.service.servicePackages({
       ...args,
       select: {
+        amenities: true,
         createdAt: true,
         description: true,
         id: true,
@@ -82,6 +84,7 @@ export class ServicePackageControllerBase {
     const result = await this.service.servicePackage({
       where: params,
       select: {
+        amenities: true,
         createdAt: true,
         description: true,
         id: true,
@@ -112,6 +115,7 @@ export class ServicePackageControllerBase {
         where: params,
         data: data,
         select: {
+          amenities: true,
           createdAt: true,
           description: true,
           id: true,
@@ -142,6 +146,7 @@ export class ServicePackageControllerBase {
       return await this.service.deleteServicePackage({
         where: params,
         select: {
+          amenities: true,
           createdAt: true,
           description: true,
           id: true,
@@ -172,6 +177,12 @@ export class ServicePackageControllerBase {
     const results = await this.service.findBookings(params.id, {
       ...query,
       select: {
+        amenity: {
+          select: {
+            id: true,
+          },
+        },
+
         createdAt: true,
         dateFrom: true,
         dateTo: true,

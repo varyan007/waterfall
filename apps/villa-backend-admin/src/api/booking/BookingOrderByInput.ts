@@ -1,6 +1,7 @@
 import { SortOrder } from "../../util/SortOrder";
 
 export type BookingOrderByInput = {
+  amenityId?: SortOrder;
   createdAt?: SortOrder;
   dateFrom?: SortOrder;
   dateTo?: SortOrder;
