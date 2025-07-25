@@ -5,11 +5,12 @@ import {
   SimpleForm,
   CreateProps,
   TextInput,
-  NumberInput,
   ReferenceArrayInput,
   SelectArrayInput,
+  NumberInput,
 } from "react-admin";
 
+import { AmenityTitle } from "../amenity/AmenityTitle";
 import { BookingTitle } from "../booking/BookingTitle";
 import { ServiceTitle } from "../service/ServiceTitle";
 
@@ -18,6 +19,13 @@ export const VillaCreate = (props: CreateProps): React.ReactElement => {
     <Create {...props}>
       <SimpleForm>
         <TextInput label="address" source="address" />
+        <ReferenceArrayInput source="amenities" reference="Amenity">
+          <SelectArrayInput
+            optionText={AmenityTitle}
+            parse={(value: any) => value && value.map((v: any) => ({ id: v }))}
+            format={(value: any) => value && value.map((v: any) => v.id)}
+          />
+        </ReferenceArrayInput>
         <NumberInput step={1} label="areaSqrm" source="areaSqrm" />
         <ReferenceArrayInput source="bookings" reference="Booking">
           <SelectArrayInput

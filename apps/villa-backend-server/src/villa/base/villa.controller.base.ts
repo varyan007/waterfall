@@ -22,6 +22,9 @@ import { Villa } from "./Villa";
 import { VillaFindManyArgs } from "./VillaFindManyArgs";
 import { VillaWhereUniqueInput } from "./VillaWhereUniqueInput";
 import { VillaUpdateInput } from "./VillaUpdateInput";
+import { AmenityFindManyArgs } from "../../amenity/base/AmenityFindManyArgs";
+import { Amenity } from "../../amenity/base/Amenity";
+import { AmenityWhereUniqueInput } from "../../amenity/base/AmenityWhereUniqueInput";
 import { BookingFindManyArgs } from "../../booking/base/BookingFindManyArgs";
 import { Booking } from "../../booking/base/Booking";
 import { BookingWhereUniqueInput } from "../../booking/base/BookingWhereUniqueInput";
@@ -158,6 +161,90 @@ export class VillaControllerBase {
     }
   }
 
+  @common.Get("/:id/amenities")
+  @ApiNestedQuery(AmenityFindManyArgs)
+  async findAmenities(
+    @common.Req() request: Request,
+    @common.Param() params: VillaWhereUniqueInput
+  ): Promise<Amenity[]> {
+    const query = plainToClass(AmenityFindManyArgs, request.query);
+    const results = await this.service.findAmenities(params.id, {
+      ...query,
+      select: {
+        createdAt: true,
+        description: true,
+        id: true,
+        images: true,
+        name: true,
+        typeField: true,
+        updatedAt: true,
+
+        villa: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+    if (results === null) {
+      throw new errors.NotFoundException(
+        `No resource was found for ${JSON.stringify(params)}`
+      );
+    }
+    return results;
+  }
+
+  @common.Post("/:id/amenities")
+  async connectAmenities(
+    @common.Param() params: VillaWhereUniqueInput,
+    @common.Body() body: AmenityWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      amenities: {
+        connect: body,
+      },
+    };
+    await this.service.updateVilla({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Patch("/:id/amenities")
+  async updateAmenities(
+    @common.Param() params: VillaWhereUniqueInput,
+    @common.Body() body: AmenityWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      amenities: {
+        set: body,
+      },
+    };
+    await this.service.updateVilla({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Delete("/:id/amenities")
+  async disconnectAmenities(
+    @common.Param() params: VillaWhereUniqueInput,
+    @common.Body() body: AmenityWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      amenities: {
+        disconnect: body,
+      },
+    };
+    await this.service.updateVilla({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
   @common.Get("/:id/bookings")
   @ApiNestedQuery(BookingFindManyArgs)
   async findBookings(
@@ -168,6 +255,12 @@ export class VillaControllerBase {
     const results = await this.service.findBookings(params.id, {
       ...query,
       select: {
+        amenity: {
+          select: {
+            id: true,
+          },
+        },
+
         createdAt: true,
         dateFrom: true,
         dateTo: true,

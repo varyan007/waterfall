@@ -20,6 +20,7 @@ import { BookingFindUniqueArgs } from "./BookingFindUniqueArgs";
 import { CreateBookingArgs } from "./CreateBookingArgs";
 import { UpdateBookingArgs } from "./UpdateBookingArgs";
 import { DeleteBookingArgs } from "./DeleteBookingArgs";
+import { Amenity } from "../../amenity/base/Amenity";
 import { ServicePackage } from "../../servicePackage/base/ServicePackage";
 import { User } from "../../user/base/User";
 import { Villa } from "../../villa/base/Villa";
@@ -64,6 +65,12 @@ export class BookingResolverBase {
       data: {
         ...args.data,
 
+        amenity: args.data.amenity
+          ? {
+              connect: args.data.amenity,
+            }
+          : undefined,
+
         servicePackage: args.data.servicePackage
           ? {
               connect: args.data.servicePackage,
@@ -94,6 +101,12 @@ export class BookingResolverBase {
         ...args,
         data: {
           ...args.data,
+
+          amenity: args.data.amenity
+            ? {
+                connect: args.data.amenity,
+              }
+            : undefined,
 
           servicePackage: args.data.servicePackage
             ? {
@@ -138,6 +151,19 @@ export class BookingResolverBase {
       }
       throw error;
     }
+  }
+
+  @graphql.ResolveField(() => Amenity, {
+    nullable: true,
+    name: "amenity",
+  })
+  async getAmenity(@graphql.Parent() parent: Booking): Promise<Amenity | null> {
+    const result = await this.service.getAmenity(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
   }
 
   @graphql.ResolveField(() => ServicePackage, {

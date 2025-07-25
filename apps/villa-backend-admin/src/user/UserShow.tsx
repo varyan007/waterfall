@@ -11,6 +11,7 @@ import {
   ReferenceField,
 } from "react-admin";
 
+import { AMENITY_TITLE_FIELD } from "../amenity/AmenityTitle";
 import { SERVICEPACKAGE_TITLE_FIELD } from "../servicePackage/ServicePackageTitle";
 import { USER_TITLE_FIELD } from "./UserTitle";
 import { VILLA_TITLE_FIELD } from "../villa/VillaTitle";
@@ -34,6 +35,13 @@ export const UserShow = (props: ShowProps): React.ReactElement => {
           label="Bookings"
         >
           <Datagrid rowClick="show" bulkActionButtons={false}>
+            <ReferenceField
+              label="Amenity"
+              source="amenity.id"
+              reference="Amenity"
+            >
+              <TextField source={AMENITY_TITLE_FIELD} />
+            </ReferenceField>
             <DateField source="createdAt" label="Created At" />
             <TextField label="dateFrom" source="dateFrom" />
             <TextField label="dateTo" source="dateTo" />

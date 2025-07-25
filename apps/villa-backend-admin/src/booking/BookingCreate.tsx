@@ -4,13 +4,14 @@ import {
   Create,
   SimpleForm,
   CreateProps,
-  DateTimeInput,
   ReferenceInput,
   SelectInput,
+  DateTimeInput,
   TextInput,
   NumberInput,
 } from "react-admin";
 
+import { AmenityTitle } from "../amenity/AmenityTitle";
 import { ServicePackageTitle } from "../servicePackage/ServicePackageTitle";
 import { UserTitle } from "../user/UserTitle";
 import { VillaTitle } from "../villa/VillaTitle";
@@ -19,6 +20,9 @@ export const BookingCreate = (props: CreateProps): React.ReactElement => {
   return (
     <Create {...props}>
       <SimpleForm>
+        <ReferenceInput source="amenity.id" reference="Amenity" label="Amenity">
+          <SelectInput optionText={AmenityTitle} />
+        </ReferenceInput>
         <DateTimeInput label="dateFrom" source="dateFrom" />
         <DateTimeInput label="dateTo" source="dateTo" />
         <ReferenceInput

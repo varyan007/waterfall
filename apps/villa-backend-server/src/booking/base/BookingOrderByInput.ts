@@ -28,6 +28,17 @@ class BookingOrderByInput {
   @Field(() => SortOrder, {
     nullable: true,
   })
+  amenityId?: SortOrder;
+
+  @ApiProperty({
+    required: false,
+    enum: ["asc", "desc"],
+  })
+  @IsOptional()
+  @IsEnum(SortOrder)
+  @Field(() => SortOrder, {
+    nullable: true,
+  })
   createdAt?: SortOrder;
 
   @ApiProperty({

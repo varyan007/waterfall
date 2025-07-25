@@ -14,6 +14,7 @@ import { PrismaService } from "../../prisma/prisma.service";
 import {
   Prisma,
   Booking as PrismaBooking,
+  Amenity as PrismaAmenity,
   ServicePackage as PrismaServicePackage,
   User as PrismaUser,
   Villa as PrismaVilla,
@@ -42,6 +43,14 @@ export class BookingServiceBase {
   }
   async deleteBooking(args: Prisma.BookingDeleteArgs): Promise<PrismaBooking> {
     return this.prisma.booking.delete(args);
+  }
+
+  async getAmenity(parentId: string): Promise<PrismaAmenity | null> {
+    return this.prisma.booking
+      .findUnique({
+        where: { id: parentId },
+      })
+      .amenity();
   }
 
   async getServicePackage(

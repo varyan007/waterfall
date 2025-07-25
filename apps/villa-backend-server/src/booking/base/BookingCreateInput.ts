@@ -11,11 +11,12 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
+import { AmenityWhereUniqueInput } from "../../amenity/base/AmenityWhereUniqueInput";
 
 import {
-  IsDate,
-  IsOptional,
   ValidateNested,
+  IsOptional,
+  IsDate,
   IsString,
   MaxLength,
   IsNumber,
@@ -30,6 +31,18 @@ import { VillaWhereUniqueInput } from "../../villa/base/VillaWhereUniqueInput";
 
 @InputType()
 class BookingCreateInput {
+  @ApiProperty({
+    required: false,
+    type: () => AmenityWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => AmenityWhereUniqueInput)
+  @IsOptional()
+  @Field(() => AmenityWhereUniqueInput, {
+    nullable: true,
+  })
+  amenity?: AmenityWhereUniqueInput | null;
+
   @ApiProperty({
     required: false,
   })

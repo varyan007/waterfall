@@ -14,6 +14,7 @@ import { PrismaService } from "../../prisma/prisma.service";
 import {
   Prisma,
   Villa as PrismaVilla,
+  Amenity as PrismaAmenity,
   Booking as PrismaBooking,
   Service as PrismaService,
 } from "@prisma/client";
@@ -39,6 +40,17 @@ export class VillaServiceBase {
   }
   async deleteVilla(args: Prisma.VillaDeleteArgs): Promise<PrismaVilla> {
     return this.prisma.villa.delete(args);
+  }
+
+  async findAmenities(
+    parentId: string,
+    args: Prisma.AmenityFindManyArgs
+  ): Promise<PrismaAmenity[]> {
+    return this.prisma.villa
+      .findUniqueOrThrow({
+        where: { id: parentId },
+      })
+      .amenities(args);
   }
 
   async findBookings(

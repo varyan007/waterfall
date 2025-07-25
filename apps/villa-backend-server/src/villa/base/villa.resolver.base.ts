@@ -20,6 +20,8 @@ import { VillaFindUniqueArgs } from "./VillaFindUniqueArgs";
 import { CreateVillaArgs } from "./CreateVillaArgs";
 import { UpdateVillaArgs } from "./UpdateVillaArgs";
 import { DeleteVillaArgs } from "./DeleteVillaArgs";
+import { AmenityFindManyArgs } from "../../amenity/base/AmenityFindManyArgs";
+import { Amenity } from "../../amenity/base/Amenity";
 import { BookingFindManyArgs } from "../../booking/base/BookingFindManyArgs";
 import { Booking } from "../../booking/base/Booking";
 import { ServiceFindManyArgs } from "../../service/base/ServiceFindManyArgs";
@@ -95,6 +97,20 @@ export class VillaResolverBase {
       }
       throw error;
     }
+  }
+
+  @graphql.ResolveField(() => [Amenity], { name: "amenities" })
+  async findAmenities(
+    @graphql.Parent() parent: Villa,
+    @graphql.Args() args: AmenityFindManyArgs
+  ): Promise<Amenity[]> {
+    const results = await this.service.findAmenities(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
   }
 
   @graphql.ResolveField(() => [Booking], { name: "bookings" })

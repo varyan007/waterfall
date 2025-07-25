@@ -15,14 +15,15 @@ import {
   IsString,
   MaxLength,
   IsOptional,
+  ValidateNested,
   IsInt,
   Min,
   Max,
-  ValidateNested,
   IsDate,
 } from "class-validator";
-import { Booking } from "../../booking/base/Booking";
+import { Amenity } from "../../amenity/base/Amenity";
 import { Type } from "class-transformer";
+import { Booking } from "../../booking/base/Booking";
 import { IsJSONValue } from "../../validators";
 import { GraphQLJSON } from "graphql-type-json";
 import { JsonValue } from "type-fest";
@@ -41,6 +42,15 @@ class Villa {
     nullable: true,
   })
   address!: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => [Amenity],
+  })
+  @ValidateNested()
+  @Type(() => Amenity)
+  @IsOptional()
+  amenities?: Array<Amenity>;
 
   @ApiProperty({
     required: false,

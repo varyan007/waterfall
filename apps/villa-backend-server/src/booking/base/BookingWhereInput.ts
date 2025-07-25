@@ -11,9 +11,10 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { DateTimeNullableFilter } from "../../util/DateTimeNullableFilter";
+import { AmenityWhereUniqueInput } from "../../amenity/base/AmenityWhereUniqueInput";
+import { ValidateNested, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
-import { IsOptional, ValidateNested } from "class-validator";
+import { DateTimeNullableFilter } from "../../util/DateTimeNullableFilter";
 import { StringFilter } from "../../util/StringFilter";
 import { ServicePackageWhereUniqueInput } from "../../servicePackage/base/ServicePackageWhereUniqueInput";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
@@ -23,6 +24,18 @@ import { VillaWhereUniqueInput } from "../../villa/base/VillaWhereUniqueInput";
 
 @InputType()
 class BookingWhereInput {
+  @ApiProperty({
+    required: false,
+    type: () => AmenityWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => AmenityWhereUniqueInput)
+  @IsOptional()
+  @Field(() => AmenityWhereUniqueInput, {
+    nullable: true,
+  })
+  amenity?: AmenityWhereUniqueInput;
+
   @ApiProperty({
     required: false,
     type: DateTimeNullableFilter,

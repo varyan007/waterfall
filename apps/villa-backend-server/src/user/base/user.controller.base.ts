@@ -170,6 +170,12 @@ export class UserControllerBase {
     const results = await this.service.findBookings(params.id, {
       ...query,
       select: {
+        amenity: {
+          select: {
+            id: true,
+          },
+        },
+
         createdAt: true,
         dateFrom: true,
         dateTo: true,

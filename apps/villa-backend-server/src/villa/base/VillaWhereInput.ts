@@ -14,6 +14,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { Type } from "class-transformer";
 import { IsOptional, ValidateNested } from "class-validator";
+import { AmenityListRelationFilter } from "../../amenity/base/AmenityListRelationFilter";
 import { IntNullableFilter } from "../../util/IntNullableFilter";
 import { BookingListRelationFilter } from "../../booking/base/BookingListRelationFilter";
 import { StringFilter } from "../../util/StringFilter";
@@ -32,6 +33,18 @@ class VillaWhereInput {
     nullable: true,
   })
   address?: StringNullableFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => AmenityListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => AmenityListRelationFilter)
+  @IsOptional()
+  @Field(() => AmenityListRelationFilter, {
+    nullable: true,
+  })
+  amenities?: AmenityListRelationFilter;
 
   @ApiProperty({
     required: false,

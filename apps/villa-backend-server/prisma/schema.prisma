@@ -21,6 +21,7 @@ model Service {
 
 model Villa {
   address     String?
+  amenities   Amenity[]
   areaSqrm    Int?
   bookings    Booking[]
   createdAt   DateTime  @default(now())
@@ -33,6 +34,7 @@ model Villa {
 }
 
 model ServicePackage {
+  amenities    Json?
   bookings     Booking[]
   createdAt    DateTime      @default(now())
   description  String?
@@ -46,6 +48,8 @@ model ServicePackage {
 }
 
 model Booking {
+  amenity          Amenity?        @relation(fields: [amenityId], references: [id])
+  amenityId        String?
   createdAt        DateTime        @default(now())
   dateFrom         DateTime?
   dateTo           DateTime?
@@ -108,4 +112,17 @@ model User {
   roles     Json
   updatedAt DateTime  @updatedAt
   username  String    @unique
+}
+
+model Amenity {
+  bookings    Booking[]
+  createdAt   DateTime  @default(now())
+  description String?
+  id          String    @id @default(cuid())
+  images      Json?
+  name        String?
+  typeField   String?
+  updatedAt   DateTime  @updatedAt
+  villa       Villa?    @relation(fields: [villaId], references: [id])
+  villaId     String?
 }

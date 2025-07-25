@@ -17,6 +17,7 @@ export const ServicePackageEdit = (props: EditProps): React.ReactElement => {
   return (
     <Edit {...props}>
       <SimpleForm>
+        <div />
         <ReferenceArrayInput source="bookings" reference="Booking">
           <SelectArrayInput
             optionText={BookingTitle}

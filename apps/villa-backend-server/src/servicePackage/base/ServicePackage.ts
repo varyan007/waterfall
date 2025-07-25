@@ -11,11 +11,11 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { Booking } from "../../booking/base/Booking";
+import { IsJSONValue } from "../../validators";
 
 import {
-  ValidateNested,
   IsOptional,
+  ValidateNested,
   IsDate,
   IsString,
   MaxLength,
@@ -24,14 +24,24 @@ import {
   Max,
 } from "class-validator";
 
-import { Type } from "class-transformer";
-import { IsJSONValue } from "../../validators";
 import { GraphQLJSON } from "graphql-type-json";
 import { JsonValue } from "type-fest";
+import { Booking } from "../../booking/base/Booking";
+import { Type } from "class-transformer";
 import { PricingRule } from "../../pricingRule/base/PricingRule";
 
 @ObjectType()
 class ServicePackage {
+  @ApiProperty({
+    required: false,
+  })
+  @IsJSONValue()
+  @IsOptional()
+  @Field(() => GraphQLJSON, {
+    nullable: true,
+  })
+  amenities!: JsonValue;
+
   @ApiProperty({
     required: false,
     type: () => [Booking],

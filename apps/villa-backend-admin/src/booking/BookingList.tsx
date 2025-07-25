@@ -3,11 +3,12 @@ import {
   List,
   Datagrid,
   ListProps,
-  DateField,
-  TextField,
   ReferenceField,
+  TextField,
+  DateField,
 } from "react-admin";
 import Pagination from "../Components/Pagination";
+import { AMENITY_TITLE_FIELD } from "../amenity/AmenityTitle";
 import { SERVICEPACKAGE_TITLE_FIELD } from "../servicePackage/ServicePackageTitle";
 import { USER_TITLE_FIELD } from "../user/UserTitle";
 import { VILLA_TITLE_FIELD } from "../villa/VillaTitle";
@@ -21,6 +22,9 @@ export const BookingList = (props: ListProps): React.ReactElement => {
       pagination={<Pagination />}
     >
       <Datagrid rowClick="show" bulkActionButtons={false}>
+        <ReferenceField label="Amenity" source="amenity.id" reference="Amenity">
+          <TextField source={AMENITY_TITLE_FIELD} />
+        </ReferenceField>
         <DateField source="createdAt" label="Created At" />
         <TextField label="dateFrom" source="dateFrom" />
         <TextField label="dateTo" source="dateTo" />
